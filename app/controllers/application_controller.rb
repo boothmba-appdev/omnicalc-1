@@ -43,9 +43,13 @@ class ApplicationController < ActionController::Base
 
     def calculate_payment
         # params = {"y1"=>"42"}
-        #@lower = params.fetch("user_min").to_f
-        #@upper = params.fetch("user_max").to_f
-        #@result = rand(@lower..@upper)
+        @user_apr = params.fetch("user_apr").to_f
+        @user_i = @user_apr/100/12
+        @user_years = params.fetch("user_years").to_i
+        @user_n = @user_years*12
+        @user_pv = params.fetch("user_pv").to_f
+        @user_payment = @user_pv*(@user_i*(1+@user_i)**@user_n)/((1+@user_i)**@user_n-1)
+        @user_payment = @user_payment
         render({:template => "calculation_templates/payment_results.html.erb"})
     end
 
